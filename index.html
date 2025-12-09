@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="扬州嘉豪网络科技有限公司 - 专业的AR/VR开发、数字孪生与元宇宙解决方案提供商。位于江苏扬州。">
+    <title>扬州嘉豪网络科技有限公司 | AR/VR 开发专家 | 定义未来视界</title>
+    
+    <!-- 引入 Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 自定义配置与样式 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            primary: '#3b82f6',
+                            accent: '#06b6d4',
+                            purple: '#8b5cf6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to right bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.8)), url('https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1920')",
+                        'tech-pattern': "url('https://images.pexels.com/photos/17483874/pexels-photo-17483874/free-photo-of-an-artist-s-illustration-of-artificial-intelligence-ai-this-image-represents-how-machine-learning-is-inspired-by-neuroscience-and-the-human-brain-it-was-created-by-novoto-studio-as.jpeg?auto=compress&cs=tinysrgb&w=1260')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 自定义动画与特效 */
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+
+        /* 玻璃拟态效果 */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 元素显现动画 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 霓虹发光文字 */
+        .text-glow {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+        
+        /* 导航栏过渡 */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 1. 导航栏 -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 px-4 lg:px-12 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-500 to-cyan-400 rounded-lg flex items-center justify-center text-white font-bold text-xl group-hover:rotate-12 transition-transform">
+                    JH
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold tracking-wider text-white">扬州嘉豪</span>
+                    <span class="text-xs text-cyan-400 tracking-[0.2em] uppercase">Yangzhou Jiahao</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="text-gray-300 hover:text-cyan-400 transition text-sm uppercase tracking-wider">首页</a>
+                <a href="#about" class="text-gray-300 hover:text-cyan-400 transition text-sm uppercase tracking-wider">关于我们</a>
+                <a href="#services" class="text-gray-300 hover:text-cyan-400 transition text-sm uppercase tracking-wider">核心技术</a>
+                <a href="#projects" class="text-gray-300 hover:text-cyan-400 transition text-sm uppercase tracking-wider">解决方案</a>
+                <a href="#contact" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full text-white font-medium hover:shadow-[0_0_15px_rgba(6,182,212,0.5)] transition transform hover:-translate-y-0.5">联系我们</a>
+            </div>
+
+            <!-- Mobile Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-slate-900/95 z-40 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center space-y-8 md:hidden">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-3xl">&times;</button>
+            <a href="#home" class="text-2xl text-white hover:text-cyan-400 mobile-link">首页</a>
+            <a href="#services" class="text-2xl text-white hover:text-cyan-400 mobile-link">核心业务</a>
+            <a href="#projects" class="text-2xl text-white hover:text-cyan-400 mobile-link">成功案例</a>
+            <a href="#contact" class="text-2xl text-cyan-400 mobile-link">联系我们</a>
+        </div>
+    </nav>
+
+    <!-- 2. Hero 区域 (首屏) -->
+    <section id="home" class="relative h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-fixed">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900"></div>
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold mb-6 animate-pulse">
+                <i class="fas fa-vr-cardboard mr-2"></i> 定义下一代交互体验
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                虚实共生 <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 text-glow">重塑数字未来</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light">
+                扬州嘉豪网络科技专注于 AR/VR 定制化开发、工业数字孪生与沉浸式文旅解决方案。我们在扬州，为世界构建元宇宙的基石。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#projects" class="px-8 py-4 bg-white text-slate-900 font-bold rounded-lg hover:bg-gray-100 transition shadow-lg hover:shadow-xl">
+                    探索案例
+                </a>
+                <a href="#contact" class="px-8 py-4 border border-white/30 bg-white/10 backdrop-blur-sm text-white font-bold rounded-lg hover:bg-white/20 transition">
+                    获取方案
+                </a>
+            </div>
+        </div>
+        
+        <!-- 滚动提示 -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-400">
+            <i class="fas fa-chevron-down text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- 3. 核心优势/关于我们摘要 -->
+    <section id="about" class="py-20 bg-slate-900 relative overflow-hidden">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">扎根扬州，<span class="text-cyan-400">链接虚拟与现实</span></h2>
+                <p class="text-gray-400 mb-6 leading-relaxed">
+                    扬州嘉豪网络科技有限公司坐落于历史文化名城扬州的广陵区湾头镇玉器城。在这个传统工艺与现代科技交汇的地方，我们将“工匠精神”注入每一行代码。
+                </p>
+                <p class="text-gray-400 mb-8 leading-relaxed">
+                    不同于传统的软件外包，我们专注于高精度的 **3D 交互技术**。从工业仿真培训到城市数字名片，我们利用 Unity3D 和 Unreal Engine 5 引擎，将想象力转化为生产力。
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-cyan-400 mr-3"></i> 100% 自主知识产权代码</li>
+                    <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-cyan-400 mr-3"></i> 毫米级精度的工业建模</li>
+                    <li class="flex items-center text-gray-300"><i class="fas fa-check-circle text-cyan-400 mr-3"></i> 跨平台 WebXR 支持</li>
+                </ul>
+            </div>
+            <div class="relative reveal delay-200">
+                <div class="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-30 blur-lg"></div>
+                <img src="https://images.pexels.com/photos/1181316/pexels-photo-1181316.jpeg?auto=compress&cs=tinysrgb&w=800" alt="AR开发团队" class="relative rounded-2xl shadow-2xl border border-white/10 hover:scale-[1.02] transition duration-500">
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 数据统计 (Counter) -->
+    <section class="py-12 bg-slate-950 border-y border-white/5">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="reveal">
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2 counter" data-target="50">0</div>
+                <div class="text-sm text-cyan-500 uppercase tracking-widest">大型项目交付</div>
+            </div>
+            <div class="reveal delay-100">
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2 counter" data-target="12">0</div>
+                <div class="text-sm text-purple-500 uppercase tracking-widest">行业解决方案</div>
+            </div>
+            <div class="reveal delay-200">
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2 counter" data-target="10000">0</div>
+                <div class="text-sm text-blue-500 uppercase tracking-widest">建模资产数 +</div>
+            </div>
+            <div class="reveal delay-300">
+                <div class="text-4xl md:text-5xl font-bold text-white mb-2 counter" data-target="98">0</div>
+                <div class="text-sm text-green-500 uppercase tracking-widest">% 客户满意度</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 核心服务 (Grid布局) -->
+    <section id="services" class="py-24 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">核心<span class="text-cyan-400">技术服务</span></h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 mx-auto rounded-full"></div>
+                <p class="mt-4 text-gray-400">覆盖从底层渲染到上层应用的全栈式 AR/VR 开发能力</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/80 transition duration-300 group reveal">
+                    <div class="w-16 h-16 bg-blue-900/50 rounded-lg flex items-center justify-center mb-6 text-3xl text-blue-400 group-hover:text-white group-hover:bg-blue-600 transition">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">VR 虚拟仿真培训</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        面向电力、化工、医疗等高危行业，提供沉浸式安全操作培训系统。降低实操风险，提升培训效率。
+                    </p>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/80 transition duration-300 group reveal delay-100">
+                    <div class="w-16 h-16 bg-cyan-900/50 rounded-lg flex items-center justify-center mb-6 text-3xl text-cyan-400 group-hover:text-white group-hover:bg-cyan-600 transition">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">AR 增强现实营销</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        基于手机端或 AR 眼镜的产品展示。让静态的商品（如玉器、工艺品）在用户手中“活”起来，展示内部结构与工艺。
+                    </p>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/80 transition duration-300 group reveal delay-200">
+                    <div class="w-16 h-16 bg-purple-900/50 rounded-lg flex items-center justify-center mb-6 text-3xl text-purple-400 group-hover:text-white group-hover:bg-purple-600 transition">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">数字孪生智慧城市</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        利用 GIS 数据与高精度建模，还原园区、工厂或城市的运行状态。接入 IoT 数据，实现可视化管理大屏。
+                    </p>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/80 transition duration-300 group reveal">
+                    <div class="w-16 h-16 bg-green-900/50 rounded-lg flex items-center justify-center mb-6 text-3xl text-green-400 group-hover:text-white group-hover:bg-green-600 transition">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">3D 互动网站 (Web3D)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        无需下载插件，在浏览器中即可流畅体验 3D 展厅。基于 Three.js 和 WebGL 技术深度优化。
+                    </p>
+                </div>
+
+                <!-- Service 5 -->
+                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/80 transition duration-300 group reveal delay-100">
+                    <div class="w-16 h-16 bg-orange-900/50 rounded-lg flex items-center justify-center mb-6 text-3xl text-orange-400 group-hover:text-white group-hover:bg-orange-600 transition">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">元宇宙游戏开发</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Unity/Unreal 引擎全流程游戏开发。支持多人在线联机、物理碰撞模拟及次世代画质渲染。
+                    </p>
+                </div>
+
+                <!-- Service 6 -->
+                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/80 transition duration-300 group reveal delay-200">
+                    <div class="w-16 h-16 bg-pink-900/50 rounded-lg flex items-center justify-center mb-6 text-3xl text-pink-400 group-hover:text-white group-hover:bg-pink-600 transition">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">全景视频与漫游</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        8K 级 VR 全景拍摄与制作。适用于广陵区旅游景点展示、房产看房、酒店内景展示等场景。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 技术栈展示 (Marquee like effect) -->
+    <section class="py-12 bg-black overflow-hidden border-t border-white/10">
+        <div class="container mx-auto px-6 text-center mb-8">
+            <h3 class="text-gray-500 text-sm uppercase tracking-widest">Powered By Leading Technologies</h3>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <!-- 使用FontAwesome或文本代表技术栈Logo -->
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fab fa-unity text-white"></i> Unity</div>
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-u text-white"></i> Unreal Engine 5</div>
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fab fa-html5 text-orange-500"></i> WebGL</div>
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-cube text-blue-400"></i> Blender</div>
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fas fa-database text-green-400"></i> Digital Twin</div>
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fab fa-android text-green-600"></i> ARCore</div>
+            <div class="flex items-center gap-2 text-2xl font-bold text-white"><i class="fab fa-apple text-gray-200"></i> ARKit</div>
+        </div>
+    </section>
+
+    <!-- 7. 特色项目：云上广陵 (Feature 1) -->
+    <section id="projects" class="py-20 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 reveal">
+                    <img src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=800" alt="未来城市与古建融合" class="rounded-xl shadow-2xl border border-white/10">
+                </div>
+                <div class="md:w-1/2 reveal">
+                    <span class="text-cyan-400 text-sm font-bold tracking-wider uppercase mb-2 block">标杆案例 · 文旅元宇宙</span>
+                    <h3 class="text-3xl font-bold text-white mb-6">“云上玉器城”数字漫游系统</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        结合我们所在的扬州玉器城地理优势，嘉豪科技打造了全真互联网级别的玉器城数字孪生体。用户佩戴 VR 眼镜即可身临其境参观大师级玉雕作品，查看每一处雕刻细节，并支持在线 AR 试戴。
+                    </p>
+                    <ul class="mb-8 space-y-2">
+                        <li class="text-gray-300"><i class="fas fa-dot-circle text-cyan-400 text-xs mr-2"></i> 8K 级超清纹理扫描</li>
+                        <li class="text-gray-300"><i class="fas fa-dot-circle text-cyan-400 text-xs mr-2"></i> 实时光线追踪渲染</li>
+                        <li class="text-gray-300"><i class="fas fa-dot-circle text-cyan-400 text-xs mr-2"></i> 虚拟导游 AI 讲解</li>
+                    </ul>
+                    <a href="#contact" class="text-white border-b border-cyan-400 pb-1 hover:text-cyan-400 transition">查看项目详情 <i class="fas fa-arrow-right ml-2 text-xs"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 特色项目：智慧工厂 (Feature 2) -->
+    <section class="py-20 bg-slate-950">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="md:w-1/2 reveal">
+                    <img src="https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=800" alt="工业数字孪生" class="rounded-xl shadow-2xl border border-white/10">
+                </div>
+                <div class="md:w-1/2 reveal">
+                    <span class="text-purple-400 text-sm font-bold tracking-wider uppercase mb-2 block">标杆案例 · 工业 4.0</span>
+                    <h3 class="text-3xl font-bold text-white mb-6">汽车零部件产线数字孪生平台</h3>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        为扬州某大型汽车配件厂开发的产线可视化管理系统。通过传感器数据实时驱动 3D 模型，管理者可在中控室实时监控设备温度、转速及故障预警，实现工厂管理的透明化与智能化。
+                    </p>
+                    <div class="flex gap-4">
+                        <span class="px-3 py-1 bg-slate-800 rounded text-xs text-gray-300">IoT 对接</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded text-xs text-gray-300">预测性维护</span>
+                        <span class="px-3 py-1 bg-slate-800 rounded text-xs text-gray-300">远程协作</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. 更多应用场景 -->
+    <section class="py-20 bg-slate-900">
+        <div class="container mx-auto px-6 text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">无限可能的<span class="text-cyan-400">应用场景</span></h2>
+        </div>
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="group relative overflow-hidden rounded-lg h-48 cursor-pointer">
+                <img src="https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=600" class="object-cover w-full h-full group-hover:scale-110 transition duration-500 opacity-60 group-hover:opacity-100" alt="房产">
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+                    <h4 class="text-xl font-bold text-white">VR 房产看房</h4>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden rounded-lg h-48 cursor-pointer">
+                <img src="https://images.pexels.com/photos/3184454/pexels-photo-3184454.jpeg?auto=compress&cs=tinysrgb&w=600" class="object-cover w-full h-full group-hover:scale-110 transition duration-500 opacity-60 group-hover:opacity-100" alt="教育">
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+                    <h4 class="text-xl font-bold text-white">K12 沉浸式教育</h4>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden rounded-lg h-48 cursor-pointer">
+                <img src="https://images.pexels.com/photos/1647976/pexels-photo-1647976.jpeg?auto=compress&cs=tinysrgb&w=600" class="object-cover w-full h-full group-hover:scale-110 transition duration-500 opacity-60 group-hover:opacity-100" alt="文博">
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+                    <h4 class="text-xl font-bold text-white">数字博物馆</h4>
+                </div>
+            </div>
+            <div class="group relative overflow-hidden rounded-lg h-48 cursor-pointer">
+                <img src="https://images.pexels.com/photos/1267338/pexels-photo-1267338.jpeg?auto=compress&cs=tinysrgb&w=600" class="object-cover w-full h-full group-hover:scale-110 transition duration-500 opacity-60 group-hover:opacity-100" alt="医疗">
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition">
+                    <h4 class="text-xl font-bold text-white">手术模拟训练</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. 服务流程 -->
+    <section class="py-20 bg-slate-950 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold">标准化的<span class="text-cyan-400">开发流程</span></h2>
+                <p class="text-gray-400 mt-2">从需求到交付，全程透明可控</p>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between relative px-4">
+                <!-- 连接线 -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-800 -z-10 transform -translate-y-1/2"></div>
+                
+                <!-- Step 1 -->
+                <div class="text-center md:w-1/5 mb-8 md:mb-0 reveal">
+                    <div class="w-16 h-16 mx-auto bg-slate-900 border-2 border-cyan-500 rounded-full flex items-center justify-center text-2xl mb-4 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                        1
+                    </div>
+                    <h4 class="font-bold mb-2">需求分析</h4>
+                    <p class="text-xs text-gray-400">实地调研，确定技术方案与交互逻辑。</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="text-center md:w-1/5 mb-8 md:mb-0 reveal delay-100">
+                    <div class="w-16 h-16 mx-auto bg-slate-900 border-2 border-blue-500 rounded-full flex items-center justify-center text-2xl mb-4">
+                        2
+                    </div>
+                    <h4 class="font-bold mb-2">美术建模</h4>
+                    <p class="text-xs text-gray-400">高精度 3D 建模、贴图绘制与场景搭建。</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="text-center md:w-1/5 mb-8 md:mb-0 reveal delay-200">
+                    <div class="w-16 h-16 mx-auto bg-slate-900 border-2 border-purple-500 rounded-full flex items-center justify-center text-2xl mb-4">
+                        3
+                    </div>
+                    <h4 class="font-bold mb-2">程序开发</h4>
+                    <p class="text-xs text-gray-400">功能逻辑编写、交互实现与性能优化。</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="text-center md:w-1/5 mb-8 md:mb-0 reveal delay-300">
+                    <div class="w-16 h-16 mx-auto bg-slate-900 border-2 border-pink-500 rounded-full flex items-center justify-center text-2xl mb-4">
+                        4
+                    </div>
+                    <h4 class="font-bold mb-2">测试部署</h4>
+                    <p class="text-xs text-gray-400">多设备兼容性测试，现场部署与培训。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. 客户评价 (Testimonials) -->
+    <section class="py-20 bg-slate-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-center">客户<span class="text-cyan-400">声音</span></h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-slate-800/50 p-8 rounded-xl border border-white/5 relative">
+                    <i class="fas fa-quote-left text-4xl text-gray-700 absolute top-4 left-4"></i>
+                    <p class="text-gray-300 italic mb-6 relative z-10 pt-4">
+                        "嘉豪科技的团队非常专业，他们制作的玉器 AR 展示系统极大提升了我们客户的购买体验。即使不在现场，也能看清雕刻的每一个细节。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gray-600 rounded-full mr-3"></div>
+                        <div>
+                            <h5 class="text-white font-bold text-sm">李经理</h5>
+                            <p class="text-gray-500 text-xs">扬州玉器城商户代表</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 p-8 rounded-xl border border-white/5 relative">
+                    <i class="fas fa-quote-left text-4xl text-gray-700 absolute top-4 left-4"></i>
+                    <p class="text-gray-300 italic mb-6 relative z-10 pt-4">
+                        "VR 安全培训系统不仅节省了我们的培训耗材成本，更重要的是让工人在绝对安全的环境下体验到了违规操作的后果，效果非常震撼。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gray-600 rounded-full mr-3"></div>
+                        <div>
+                            <h5 class="text-white font-bold text-sm">张工</h5>
+                            <p class="text-gray-500 text-xs">某电力设备制造厂 安全总监</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. 行业资讯 (News) -->
+    <section class="py-20 bg-slate-950">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-end mb-10">
+                <h2 class="text-3xl font-bold">行业<span class="text-cyan-400">动态</span></h2>
+                <a href="#" class="text-sm text-gray-400 hover:text-white">查看更多 <i class="fas fa-angle-right"></i></a>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- News 1 -->
+                <article class="bg-slate-900 rounded-lg overflow-hidden shadow-lg group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.pexels.com/photos/7562025/pexels-photo-7562025.jpeg?auto=compress&cs=tinysrgb&w=600" alt="News 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-cyan-400 mb-2 block">2023-10-15</span>
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition">苹果 Vision Pro 发布对 AR 开发的影响</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3">
+                            随着空间计算时代的到来，WebXR 和原生开发面临新的机遇与挑战。嘉豪科技已率先启动相关技术储备...
+                        </p>
+                    </div>
+                </article>
+                <!-- News 2 -->
+                <article class="bg-slate-900 rounded-lg overflow-hidden shadow-lg group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=600" alt="News 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-cyan-400 mb-2 block">2023-09-22</span>
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition">扬州市文旅局考察数字文旅项目</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3">
+                            市局领导莅临我司视察“云上玉器城”项目，对数字技术赋能传统文化的实践给予高度评价。
+                        </p>
+                    </div>
+                </article>
+                <!-- News 3 -->
+                <article class="bg-slate-900 rounded-lg overflow-hidden shadow-lg group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.pexels.com/photos/2007647/pexels-photo-2007647.jpeg?auto=compress&cs=tinysrgb&w=600" alt="News 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-cyan-400 mb-2 block">2023-08-10</span>
+                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition">工业元宇宙：制造业的下一个风口</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3">
+                            深度解析数字孪生技术如何帮助工厂降本增效，实现全生命周期的数字化管理。
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. FAQ 常见问题 -->
+    <section class="py-20 bg-slate-900">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 class="text-3xl font-bold text-center mb-12">常见<span class="text-cyan-400">问题</span></h2>
+            <div class="space-y-4">
+                <div class="border border-slate-700 rounded-lg p-4 bg-slate-800">
+                    <h3 class="font-bold text-white cursor-pointer flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        定制一个 VR 项目通常需要多久？
+                        <i class="fas fa-chevron-down text-sm"></i>
+                    </h3>
+                    <p class="text-gray-400 text-sm mt-3 hidden">
+                        项目周期取决于场景的复杂度和交互功能的多少。一般来说，简单的全景漫游项目需 1-2 周，复杂的工业仿真或游戏类项目通常需要 1-3 个月。
+                    </p>
+                </div>
+                <div class="border border-slate-700 rounded-lg p-4 bg-slate-800">
+                    <h3 class="font-bold text-white cursor-pointer flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        你们是否提供硬件采购服务？
+                        <i class="fas fa-chevron-down text-sm"></i>
+                    </h3>
+                    <p class="text-gray-400 text-sm mt-3 hidden">
+                        是的，我们与 HTC Vive, Pico, Oculus 以及 Nreal 等硬件厂商有长期合作关系，可以为客户提供软硬件一体化解决方案。
+                    </p>
+                </div>
+                <div class="border border-slate-700 rounded-lg p-4 bg-slate-800">
+                    <h3 class="font-bold text-white cursor-pointer flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">
+                        后期维护如何保障？
+                        <i class="fas fa-chevron-down text-sm"></i>
+                    </h3>
+                    <p class="text-gray-400 text-sm mt-3 hidden">
+                        我们提供为期 1 年的免费技术维护服务，包括 bug 修复和简单的内容更新。期满后可签订长期运维合同。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. CTA (Call to Action) -->
+    <section class="py-16 bg-gradient-to-r from-blue-900 to-cyan-900 relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-12 opacity-10">
+            <i class="fas fa-rocket text-9xl text-white"></i>
+        </div>
+        <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-8 md:mb-0 text-center md:text-left">
+                <h2 class="text-3xl font-bold text-white mb-2">准备好开启您的元宇宙之旅了吗？</h2>
+                <p class="text-cyan-200">联系我们，获取免费的项目评估与技术咨询。</p>
+            </div>
+            <a href="#contact" class="px-8 py-4 bg-white text-blue-900 font-bold rounded-full shadow-lg hover:bg-cyan-50 transition transform hover:scale-105">
+                立即咨询
+            </a>
+        </div>
+    </section>
+
+    <!-- 15. 联系方式与表单 -->
+    <section id="contact" class="py-24 bg-slate-950">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- 联系信息 -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">联系<span class="text-cyan-400">我们</span></h2>
+                    <p class="text-gray-400 mb-8">我们期待与您探讨技术，共创未来。欢迎莅临公司参观指导。</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-cyan-400 flex-shrink-0 mr-4">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">公司地址</h4>
+                                <p class="text-gray-400 text-sm">江苏省扬州市广陵区湾头镇<br>玉器城 B 区 3-11</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-cyan-400 flex-shrink-0 mr-4">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">电子邮箱</h4>
+                                <p class="text-gray-400 text-sm hover:text-white transition">
+                                    <a href="mailto:contact@yangzhoujiahao.asia">contact@yangzhoujiahao.asia</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-cyan-400 flex-shrink-0 mr-4">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">联系电话</h4>
+                                <p class="text-gray-400 text-sm font-mono text-lg">186-7684-2638</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 社交媒体/二维码占位 -->
+                    <div class="mt-10 flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-cyan-600 hover:text-white transition"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition"><i class="fab fa-qq"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-pink-600 hover:text-white transition"><i class="fab fa-weibo"></i></a>
+                    </div>
+                </div>
+
+                <!-- 留言表单 -->
+                <div class="bg-slate-900 p-8 rounded-2xl border border-white/5 shadow-2xl">
+                    <h3 class="text-xl font-bold text-white mb-6">在线留言</h3>
+                    <form id="contactForm" class="space-y-4" onsubmit="event.preventDefault(); showSuccess();">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">姓名</label>
+                                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400 transition" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">电话</label>
+                                <input type="tel" class="w-full bg-slate-800 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400 transition" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">企业/机构名称</label>
+                            <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400 transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">需求描述</label>
+                            <textarea rows="4" class="w-full bg-slate-800 border border-slate-700 rounded p-3 text-white focus:outline-none focus:border-cyan-400 transition" placeholder="请简述您的项目需求..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 rounded hover:shadow-lg transition transform hover:-translate-y-1">
+                            发送消息
+                        </button>
+                    </form>
+                    <!-- 模拟发送成功提示 -->
+                    <div id="successMessage" class="hidden mt-4 p-4 bg-green-900/50 border border-green-500/50 rounded text-green-400 text-center text-sm">
+                        <i class="fas fa-check-circle mr-2"></i> 信息已发送，我们的项目经理将尽快联系您。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 16. 地图部分 (静态图片模拟) -->
+    <section class="h-64 w-full bg-slate-800 relative group overflow-hidden">
+        <!-- 这里使用 picsum 生成一个类似地图纹理的图片，实际应用建议嵌入百度/高德地图API -->
+        <img src="https://images.pexels.com/photos/2506269/pexels-photo-2506269.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="Location Map" class="w-full h-full object-cover opacity-50 group-hover:opacity-60 transition">
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="bg-slate-900/80 backdrop-blur px-6 py-3 rounded-full border border-cyan-500/30 text-cyan-400 flex items-center animate-bounce">
+                <i class="fas fa-map-pin mr-2"></i> 扬州市广陵区湾头镇玉器城
+            </div>
+        </div>
+    </section>
+
+    <!-- 17. 页脚 -->
+    <footer class="bg-black py-12 border-t border-white/10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-tr from-blue-500 to-cyan-400 rounded flex items-center justify-center text-white font-bold">JH</div>
+                        <span class="text-lg font-bold text-white">扬州嘉豪</span>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        专注于 AR/VR 技术研发与商业化应用，致力于成为江苏地区领先的元宇宙技术服务商。
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#about" class="hover:text-cyan-400 transition">关于我们</a></li>
+                        <li><a href="#services" class="hover:text-cyan-400 transition">核心技术</a></li>
+                        <li><a href="#projects" class="hover:text-cyan-400 transition">案例展示</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">加入我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">服务领域</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-cyan-400 transition">工业数字孪生</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">VR 职业培训</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">AR 互动营销</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">3D 网站开发</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">订阅我们</h4>
+                    <p class="text-gray-500 text-xs mb-3">获取最新的 AR/VR 行业资讯</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Email Address" class="bg-slate-900 border border-slate-700 text-white text-sm px-3 py-2 rounded-l focus:outline-none w-full">
+                        <button class="bg-cyan-600 text-white px-4 py-2 rounded-r hover:bg-cyan-500 transition"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+                <p>&copy; 2023 扬州嘉豪网络科技有限公司 版权所有 All Rights Reserved.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">隐私政策</a>
+                    <a href="#" class="hover:text-white">服务条款</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // 1. Mobile Menu Logic
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            menu.classList.toggle('translate-x-full');
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // 2. Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // 3. Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 4. Number Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        let hasCounted = false;
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !hasCounted) {
+                hasCounted = true;
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const increment = target / 50; 
+                    
+                    const updateCounter = () => {
+                        const c = +counter.innerText;
+                        if(c < target) {
+                            counter.innerText = Math.ceil(c + increment);
+                            setTimeout(updateCounter, 30);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCounter();
+                });
+            }
+        }, { threshold: 0.5 });
+        
+        const counterSection = document.querySelector('.counter')?.parentElement?.parentElement;
+        if(counterSection) counterObserver.observe(counterSection);
+
+        // 5. Contact Form Success Simulation
+        function showSuccess() {
+            const form = document.getElementById('contactForm');
+            const msg = document.getElementById('successMessage');
+            form.reset();
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
